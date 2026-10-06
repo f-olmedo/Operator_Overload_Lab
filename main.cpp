@@ -15,22 +15,22 @@ using namespace std;
 
 class BankAccount {
 private:
-    string accountNumber;
-    string accountHolderName;
+    string* accountNumber; // pointers to strings
+    string* accountHolderName; // pointers to strings
     double balance;
 
 public:
     // Empty account w default values
     BankAccount() {
-        accountNumber = "Unknown";
-        accountHolderName = "Unknown";
+        accountNumber = new string("Unknown"); // string in dynamic memory
+        accountHolderName = new string("Unknown"); // string in dynamic memory
         balance = 0.0;
     }
 
     // Creates an acc
     BankAccount(string number, string name, double initialBalance) {
-        accountNumber = number;
-        accountHolderName = name;
+        accountNumber = new string(number); // separate copy of the acc num
+        accountHolderName = new string(name); // separate copy of the acc num
         balance = initialBalance;
     }
 
