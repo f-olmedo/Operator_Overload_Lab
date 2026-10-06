@@ -218,23 +218,10 @@ int main() {
         choice = getInteger();
 
         if (choice == 1) {
-            string accountNumber;
-            string accountHolderName;
-            double initialBalance;
+            // Use the static function to create the account
+            BankAccount newAccount = BankAccount::createAccountFromInput();
 
-            cout << "Enter account number: ";
-            cin >> accountNumber;
-
-            cin.ignore(numeric_limits<streamsize>::max(), '\n');
-
-            cout << "Enter account holder name: ";
-            getline(cin, accountHolderName);
-
-            cout << "Enter initial balance: ";
-            initialBalance = getAmount();
-
-            // Add new account to the vector
-            accounts.emplace_back(accountNumber, accountHolderName, initialBalance);
+            accounts.push_back(newAccount);
 
             cout << "Account created successfully.\n";
         }
@@ -257,8 +244,9 @@ int main() {
                     cout << "Enter deposit amount: ";
                     double amount = getAmount();
 
-                    accounts[accountIndex - 1] += amount; // +=
-                    }
+                    // Use overloaded += operator
+                    accounts[accountIndex - 1] += amount;
+                }
                 else {
                     cout << "Invalid account number.\n";
                 }
@@ -280,8 +268,9 @@ int main() {
                     cout << "Enter withdrawal amount: ";
                     double amount = getAmount();
 
+                    // Use overloaded -= operator
                     accounts[accountIndex - 1] -= amount;
-                    }
+                }
                 else {
                     cout << "Invalid account number.\n";
                 }
@@ -310,20 +299,89 @@ int main() {
                     accounts[accountIndex - 1].setAccountHolderName(newName);
 
                     cout << "Account holder name updated.\n";
-                    }
+                }
                 else {
                     cout << "Invalid account number.\n";
                 }
             }
         }
         else if (choice == 6) {
+            if (accounts.size() < 2) {
+                cout << "You need at least two accounts to compare.\n";
+            }
+            else {
+                displayAccounts(accounts);
+
+                cout << "\nEnter first account number (1-"
+                     << accounts.size() << "): ";
+                int first = getInteger();
+
+                cout << "Enter second account number (1-"
+                     << accounts.size() << "): ";
+                int second = getInteger();
+
+                if (first >= 1 && first <= static_cast<int>(accounts.size()) &&
+                    second >= 1 && second <= static_cast<int>(accounts.size())) {
+
+                    BankAccount& account1 = accounts[first - 1];
+                    BankAccount& account2 = accounts[second - 1];
+
+                    if (account1 == account2) {
+                        cout << "The accounts have the same account number.\n";
+                    }
+                    else {
+                        cout << "The accounts have different account numbers.\n";
+                    }
+
+                    if (account1 < account2) {
+                        cout << "The first account has a lower balance.\n";
+                    }
+                    else if (account1 > account2) {
+                        cout << "The first account has a higher balance.\n";
+                    }
+                    else {
+                        cout << "The accounts have the same balance.\n";
+                    }
+                }
+                else {
+                    cout << "Invalid account number.\n";
+                }
+            }
+        }
+        else if (choice == 7) {
+            if (accounts.empty()) {
+                cout << "No accounts available.\n";
+            }
+            else {
+                displayAccounts(accounts);
+
+                cout << "\nEnter account number to copy (1-"
+                     << accounts.size() << "): ";
+                int accountIndex = getInteger();
+
+                if (accountIndex >= 1 &&
+                    accountIndex <= static_cast<int>(accounts.size())) {
+
+                    // Demonstrates the copy constructor
+                    BankAccount copiedAccount(accounts[accountIndex - 1]);
+
+                    accounts.push_back(copiedAccount);
+
+                    cout << "Account copied successfully.\n";
+                }
+                else {
+                    cout << "Invalid account number.\n";
+                }
+            }
+        }
+        else if (choice == 8) {
             cout << "Thank you for using the Bank Account Management System.\n";
         }
         else {
-            cout << "Invalid choice. Please select 1-6.\n";
+            cout << "Invalid choice. Please select 1-8.\n";
         }
 
-    } while (choice != 6);
+    } while (choice != 8);
 
     return 0;
 }
