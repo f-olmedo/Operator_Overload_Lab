@@ -104,6 +104,21 @@ public:
 
         return *this;
     }
+
+    // Compares account numbers
+    bool operator==(const BankAccount& other) const {
+        return *accountNumber == *other.accountNumber;
+    }
+
+    // Compares balances
+    bool operator<(const BankAccount& other) const {
+        return balance < other.balance;
+    }
+
+    // Compares balances
+    bool operator>(const BankAccount& other) const {
+        return balance > other.balance;
+    }
 };
 
 // Gets a valid integer from the user
