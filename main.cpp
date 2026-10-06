@@ -41,6 +41,16 @@ public:
         balance = other.balance;
     }
 
+    // Copy assignment operator
+    BankAccount& operator=(const BankAccount& other) {
+        if (this != &other) {
+            *accountNumber = *other.accountNumber;
+            *accountHolderName = *other.accountHolderName;
+            balance = other.balance;
+        }
+        return *this;
+    }
+
     // Get the account number
     string getAccountNumber() const {
         return accountNumber;
