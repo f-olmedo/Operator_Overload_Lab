@@ -210,7 +210,9 @@ int main() {
         cout << "3. Deposit\n";
         cout << "4. Withdraw\n";
         cout << "5. Change Account Holder Name\n";
-        cout << "6. Exit\n";
+        cout << "6. Compare Accounts\n";
+        cout << "7. Copy Account\n";
+        cout << "8. Exit\n";
         cout << "Enter your choice: ";
 
         choice = getInteger();
@@ -278,7 +280,7 @@ int main() {
                     cout << "Enter withdrawal amount: ";
                     double amount = getAmount();
 
-                    accounts[accountIndex - 1].withdraw(amount);
+                    accounts[accountIndex - 1] -= amount;
                     }
                 else {
                     cout << "Invalid account number.\n";
