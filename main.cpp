@@ -1,0 +1,252 @@
+/*
+Author: Fabian Olmedo
+Date: September 5, 2026
+Project: Advanced Objects & Classes II
+Purpose: Extend your existing `BankAccount` class to incorporate operator overloading and
+static utility functions, allowing for more natural and intuitive interactions with bank account objects
+*/
+#include <iostream>
+#include <vector>
+#include <string>
+#include <limits>
+#include <iomanip>
+
+using namespace std;
+
+class BankAccount {
+private:
+    string accountNumber;
+    string accountHolderName;
+    double balance;
+
+public:
+    // Empty account w default values
+    BankAccount() {
+        accountNumber = "Unknown";
+        accountHolderName = "Unknown";
+        balance = 0.0;
+    }
+
+    // Creates an acc
+    BankAccount(string number, string name, double initialBalance) {
+        accountNumber = number;
+        accountHolderName = name;
+        balance = initialBalance;
+    }
+
+    // Get the account number
+    string getAccountNumber() const {
+        return accountNumber;
+    }
+
+    string getAccountHolderName() const {
+        return accountHolderName;
+    }
+
+    // Gets the balance
+    double getBalance() const {
+        return balance;
+    }
+
+    // Get account holder name
+    void setAccountHolderName(string name) {
+        accountHolderName = name;
+    }
+
+    // Add money
+    void deposit(double amount) {
+        if (amount > 0) {
+            balance += amount;
+            cout << "Deposit successful.\n";
+        }
+        else {
+            cout << "Deposit amount must be greater than 0.\n";
+        }
+    }
+
+    // Withdraw money
+    void withdraw(double amount) {
+        if (amount <= 0) {
+            cout << "Withdrawal amount must be greater than 0.\n";
+        }
+        else if (amount > balance) {
+            cout << "Insufficient funds.\n";
+        }
+        else {
+            balance -= amount;
+            cout << "Withdrawal successful.\n";
+        }
+    }
+};
+
+// Gets a valid integer from the user
+int getInteger() {
+    int value;
+
+    while (!(cin >> value)) {
+        cout << "Invalid input. Please enter a number: ";
+        cin.clear();
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+    }
+
+    return value;
+}
+
+// Gets a valid positive amount from the user
+double getAmount() {
+    double amount;
+
+    while (!(cin >> amount) || amount <= 0) {
+        cout << "Invalid amount. Enter a value greater than 0: ";
+        cin.clear();
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+    }
+
+    return amount;
+}
+
+// Displays all accounts
+void displayAccounts(const vector<BankAccount>& accounts) {
+    if (accounts.empty()) {
+        cout << "No accounts available.\n";
+        return;
+    }
+
+    cout << fixed << setprecision(2);
+
+    for (size_t i = 0; i < accounts.size(); ++i) {
+        cout << "\nAccount " << i + 1 << endl;
+        cout << "Account Number: " << accounts[i].getAccountNumber() << endl;
+        cout << "Account Holder: " << accounts[i].getAccountHolderName() << endl;
+        cout << "Balance: $" << accounts[i].getBalance() << endl;
+    }
+}
+
+int main() {
+    //keeps track of all the accounts
+    vector<BankAccount> accounts;
+
+    int choice;
+
+    do {
+        cout << "\n===== Bank Account Management System =====\n";
+        cout << "1. Create Account\n";
+        cout << "2. Display Accounts\n";
+        cout << "3. Deposit\n";
+        cout << "4. Withdraw\n";
+        cout << "5. Change Account Holder Name\n";
+        cout << "6. Exit\n";
+        cout << "Enter your choice: ";
+
+        choice = getInteger();
+
+        if (choice == 1) {
+            string accountNumber;
+            string accountHolderName;
+            double initialBalance;
+
+            cout << "Enter account number: ";
+            cin >> accountNumber;
+
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+
+            cout << "Enter account holder name: ";
+            getline(cin, accountHolderName);
+
+            cout << "Enter initial balance: ";
+            initialBalance = getAmount();
+
+            // Add new account to the vector
+            accounts.emplace_back(accountNumber, accountHolderName, initialBalance);
+
+            cout << "Account created successfully.\n";
+        }
+        else if (choice == 2) {
+            displayAccounts(accounts);
+        }
+        else if (choice == 3) {
+            if (accounts.empty()) {
+                cout << "No accounts available.\n";
+            }
+            else {
+                displayAccounts(accounts);
+
+                cout << "\nEnter account number (1-" << accounts.size() << "): ";
+                int accountIndex = getInteger();
+
+                if (accountIndex >= 1 &&
+                    accountIndex <= static_cast<int>(accounts.size())) {
+
+                    cout << "Enter deposit amount: ";
+                    double amount = getAmount();
+
+                    accounts[accountIndex - 1].deposit(amount);
+                    }
+                else {
+                    cout << "Invalid account number.\n";
+                }
+            }
+        }
+        else if (choice == 4) {
+            if (accounts.empty()) {
+                cout << "No accounts available.\n";
+            }
+            else {
+                displayAccounts(accounts);
+
+                cout << "\nEnter account number (1-" << accounts.size() << "): ";
+                int accountIndex = getInteger();
+
+                if (accountIndex >= 1 &&
+                    accountIndex <= static_cast<int>(accounts.size())) {
+
+                    cout << "Enter withdrawal amount: ";
+                    double amount = getAmount();
+
+                    accounts[accountIndex - 1].withdraw(amount);
+                    }
+                else {
+                    cout << "Invalid account number.\n";
+                }
+            }
+        }
+        else if (choice == 5) {
+            if (accounts.empty()) {
+                cout << "No accounts available.\n";
+            }
+            else {
+                displayAccounts(accounts);
+
+                cout << "\nEnter account number (1-" << accounts.size() << "): ";
+                int accountIndex = getInteger();
+
+                if (accountIndex >= 1 &&
+                    accountIndex <= static_cast<int>(accounts.size())) {
+
+                    string newName;
+
+                    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+
+                    cout << "Enter new account holder name: ";
+                    getline(cin, newName);
+
+                    accounts[accountIndex - 1].setAccountHolderName(newName);
+
+                    cout << "Account holder name updated.\n";
+                    }
+                else {
+                    cout << "Invalid account number.\n";
+                }
+            }
+        }
+        else if (choice == 6) {
+            cout << "Thank you for using the Bank Account Management System.\n";
+        }
+        else {
+            cout << "Invalid choice. Please select 1-6.\n";
+        }
+
+    } while (choice != 6);
+
+    return 0;
+}
