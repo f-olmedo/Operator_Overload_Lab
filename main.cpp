@@ -59,11 +59,11 @@ public:
 
     // Get the account number
     string getAccountNumber() const {
-        return accountNumber;
+        return *accountNumber;
     }
 
     string getAccountHolderName() const {
-        return accountHolderName;
+        return *accountHolderName;
     }
 
     // Gets the balance
@@ -73,11 +73,11 @@ public:
 
     // Get account holder name
     void setAccountHolderName(string name) {
-        accountHolderName = name;
+        *accountHolderName = name;
     }
 
-    // Add money
-    void deposit(double amount) {
+    // Add money using +=
+    BankAccount& operator+=(double amount) {
         if (amount > 0) {
             balance += amount;
             cout << "Deposit successful.\n";
@@ -85,6 +85,8 @@ public:
         else {
             cout << "Deposit amount must be greater than 0.\n";
         }
+
+        return *this;
     }
 
     // Withdraw money
