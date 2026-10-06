@@ -119,6 +119,41 @@ public:
     bool operator>(const BankAccount& other) const {
         return balance > other.balance;
     }
+
+    // Prints account information
+    static void printAccount(const BankAccount& account) {
+        cout << fixed << setprecision(2);
+        cout << "Account Number: " << account.getAccountNumber() << endl;
+        cout << "Account Holder: " << account.getAccountHolderName() << endl;
+        cout << "Balance: $" << account.getBalance() << endl;
+    }
+
+    // Creates an account using user input
+    static BankAccount createAccountFromInput() {
+        string accountNumber;
+        string accountHolderName;
+        double initialBalance;
+
+        cout << "Enter account number: ";
+        cin >> accountNumber;
+
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+
+        cout << "Enter account holder name: ";
+        getline(cin, accountHolderName);
+
+        cout << "Enter initial balance: ";
+        cin >> initialBalance;
+
+        while (cin.fail() || initialBalance < 0) {
+            cout << "Invalid amount. Enter a non-negative balance: ";
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            cin >> initialBalance;
+        }
+
+        return BankAccount(accountNumber, accountHolderName, initialBalance);
+    }
 };
 
 // Gets a valid integer from the user
