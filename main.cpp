@@ -34,6 +34,13 @@ public:
         balance = initialBalance;
     }
 
+    // Copy constructor
+    BankAccount(const BankAccount& other) {
+        accountNumber = new string(*other.accountNumber);
+        accountHolderName = new string(*other.accountHolderName);
+        balance = other.balance;
+    }
+
     // Get the account number
     string getAccountNumber() const {
         return accountNumber;
