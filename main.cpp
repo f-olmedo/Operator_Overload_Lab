@@ -51,6 +51,12 @@ public:
         return *this;
     }
 
+    // Destructor (cleanup)
+    ~BankAccount() {
+        delete accountNumber;
+        delete accountHolderName;
+    }
+
     // Get the account number
     string getAccountNumber() const {
         return accountNumber;
