@@ -89,8 +89,8 @@ public:
         return *this;
     }
 
-    // Withdraw money
-    void withdraw(double amount) {
+    // Withdraw money using -=
+    BankAccount& operator-=(double amount) {
         if (amount <= 0) {
             cout << "Withdrawal amount must be greater than 0.\n";
         }
@@ -101,6 +101,8 @@ public:
             balance -= amount;
             cout << "Withdrawal successful.\n";
         }
+
+        return *this;
     }
 };
 
