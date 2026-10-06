@@ -193,9 +193,7 @@ void displayAccounts(const vector<BankAccount>& accounts) {
 
     for (size_t i = 0; i < accounts.size(); ++i) {
         cout << "\nAccount " << i + 1 << endl;
-        cout << "Account Number: " << accounts[i].getAccountNumber() << endl;
-        cout << "Account Holder: " << accounts[i].getAccountHolderName() << endl;
-        cout << "Balance: $" << accounts[i].getBalance() << endl;
+        BankAccount::printAccount(accounts[i]);
     }
 }
 
