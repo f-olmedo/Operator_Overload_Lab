@@ -255,7 +255,7 @@ int main() {
                     cout << "Enter deposit amount: ";
                     double amount = getAmount();
 
-                    accounts[accountIndex - 1].deposit(amount);
+                    accounts[accountIndex - 1] += amount; // +=
                     }
                 else {
                     cout << "Invalid account number.\n";
